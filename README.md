@@ -1,5 +1,6 @@
-# HUNTERS_2021
-## 2021년 HUNTERS Algorithm Study 2021.01.01~
+# 2021년 HUNTERS Algorithm Study 
+### 기간
+* 2021/01/01 (금) ~
 ### 목표
 * 알고리즘 역량 향상 
 * 형상관리 역량 유지 및 향상
