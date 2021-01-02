@@ -2,7 +2,7 @@
 ## 2021년 HUNTERS Algorithm Study 2021.01.01~
 
 ## Manual
-* 형상 관리 역량을 유지하기 위함<br/><br/>
+__형상 관리 역량을 유지하기 위함__<br/><br/>
 
 1. master(main) branch에 회차별 폴더 생성 - 동건 (ex. 210101_HUNTERS_1회차)
 2. master(main) branch로부터 각자 자신의 이름으로 branch 생성 (ex. 정동건_1회차)
