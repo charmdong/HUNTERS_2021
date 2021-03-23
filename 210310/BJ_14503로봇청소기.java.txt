@@ -1,0 +1,129 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int R,C,D;
+	static int[][] map;
+	static boolean[][] cleaned;
+	static int res = 0;
+	static int r,c; // 현재 청소기 좌표
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		Input(); // 입력
+		cleaned = new boolean[R][C];
+		
+		Simul();
+		
+		System.out.println(res);
+	}
+	
+	
+	
+	
+	private static void Simul() {
+		int d = D;
+		// 현재 위치 청소
+		if(!cleaned[r][c]) {
+			res++;
+			D--;
+			cleaned[r][c] = true;
+		}
+		int cnt = 0;
+		boolean flag = false;
+		while(cnt<4) {
+			if(D<0) D=3;
+			if(D==0) {
+				if(r-1>=0) {
+					if(!cleaned[r-1][c] && map[r-1][c]==0) {
+						r = r-1;
+						flag = true;
+						Simul();
+					}
+				}
+				cnt++;
+				D=3;
+			} else if(D==1) {
+				if(c+1<C && !cleaned[r][c+1] && map[r][c+1]==0) {
+					c=c+1;
+					flag = true;
+					Simul();
+				}
+				cnt++;
+				D--;
+			} else if(D==2) {
+				if(r+1<R && !cleaned[r+1][c] && map[r+1][c]==0) {
+					r=r+1;
+					flag = true;
+					Simul();
+				}
+				cnt++;
+				D--;
+			} else {
+				if(c-1>=0 && !cleaned[r][c-1] && map[r][c-1]==0) {
+					c=c-1;
+					flag = true;
+					Simul();
+				}
+				cnt++;
+				D--;
+			}
+		}
+		// 후진
+		if(!flag) {
+			D = d;
+			if(d==0) {
+				if(map[r+1][c]==0) {
+					r=r+1;
+					Simul();
+				} else {
+					return;
+				}
+				
+			} else if(d==1) {
+				if(c-1>=0 && map[r][c-1]==0) {
+					c=c-1;
+					Simul();
+				} else {
+					return;
+				}
+			} else if(d==2) {
+				if(r-1>=0 && map[r-1][c]==0) {
+					r=r-1;
+					Simul();
+				} else {
+					return;
+				}
+			} else if(d==3) {
+				if(c+1<C && map[r][c+1]==0) {
+					c=c+1;
+					Simul();
+				} else {
+					return;
+				}
+			}
+		} 
+	}
+
+	private static void Input() throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		R = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		
+		st = new StringTokenizer(br.readLine());
+		r = Integer.parseInt(st.nextToken());
+		c = Integer.parseInt(st.nextToken());
+		D = Integer.parseInt(st.nextToken());
+		
+		map = new int[R][C];
+		
+		for(int i=0;i<R;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<C;j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+	}
+
+}
