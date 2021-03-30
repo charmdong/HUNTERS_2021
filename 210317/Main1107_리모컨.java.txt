@@ -1,0 +1,62 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.stream.Stream;
+
+public class Main1107_리모컨 {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
+		
+		if(M==0) {
+			int num[] = Stream.of(String.valueOf(N).split("")).mapToInt(Integer::parseInt).toArray();
+			System.out.println(Integer.min(Math.abs(N-100), num.length));
+			return;
+		}
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		boolean[] broken = new boolean[10];
+		for (int m = 0; m < M; m++) {
+			broken[Integer.parseInt(st.nextToken())] = true;
+		}
+
+		int now = 100;
+
+		int mp = movePlue(now, N, broken);
+		int mm = moveMinus(now, N, broken);
+
+		int answer = Integer.min(Integer.min(mp, mm), Math.abs(N - now));
+		System.out.println(answer);
+
+	}
+
+	private static int movePlue(int now, int chanel, boolean[] broken) {
+		L: for (int i=0;i<1000000;i++) {
+			int next = chanel + i;
+			int num[] = Stream.of(String.valueOf(next).split("")).mapToInt(Integer::parseInt).toArray();
+			for (int idx = 0; idx < num.length; idx++) {
+				if (broken[num[idx]])
+					continue L;
+			}
+			return num.length + i;
+		}
+		return 987654321;
+	}
+
+	private static int moveMinus(int now, int chanel, boolean[] broken) {
+		L: for (int i=0;i<=chanel;i++) {
+			int next = chanel - i;
+			int num[] = Stream.of(String.valueOf(next).split("")).mapToInt(Integer::parseInt).toArray();
+			for (int idx = 0; idx < num.length; idx++) {
+				if (broken[num[idx]])
+					continue L;
+			}
+			return num.length + i;
+		}
+		return 987654321;
+	}
+}
