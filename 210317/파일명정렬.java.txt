@@ -1,0 +1,78 @@
+import java.util.*;
+class HNT implements Comparable<HNT> {
+    int idx;
+    String head, number, tail;
+    public HNT (int idx, String head, String number, String tail) {
+        this.idx = idx;
+        this.head = head;
+        this.number = number;
+        this.tail = tail;
+    }
+    @Override
+    public int compareTo(HNT h) {
+        // 대소문자 상관없이 head에 의해 정렬
+        int headCompare = this.head.toUpperCase().compareTo(h.head.toUpperCase());
+        if(headCompare > 0) {
+            return 1;
+        } else if(headCompare < 0){
+            return -1;
+        } else {
+            // number로 정렬
+            int thisNum = Integer.parseInt(this.number);
+            int hNum = Integer.parseInt(h.number);
+            if(thisNum > hNum) return 1;
+            else if(thisNum < hNum) return -1;
+            else return 0;
+        }
+    }
+    
+}
+class Solution {
+    public String[] solution(String[] files) {
+        String[] answer = new String[files.length];
+        ArrayList<HNT> list = new ArrayList<>();
+        
+        for(int idx = 0; idx<files.length; idx++) {
+            // head, number, tail 구분
+            StringBuilder head = new StringBuilder();
+            StringBuilder number = new StringBuilder();
+            StringBuilder tail = new StringBuilder();
+            
+            String file = files[idx];
+            boolean ifnum = false;
+            boolean iftail = false;
+            for(int fileIdx = 0; fileIdx<file.length(); fileIdx++){
+                if(!iftail && !ifnum) {
+                    if(Character.isDigit(file.charAt(fileIdx))) {
+                        ifnum = true;
+                        number.append(file.charAt(fileIdx));
+                    } else 
+                        head.append(file.charAt(fileIdx));
+                } else if(ifnum){
+                    if(Character.isDigit(file.charAt(fileIdx))){
+                        number.append(file.charAt(fileIdx));
+                    }else {
+                        ifnum = false;
+                        iftail = true;
+                        tail.append(file.charAt(fileIdx));
+                    }
+                } else {
+                    tail.append(file.charAt(fileIdx));
+                }
+            }
+            
+            list.add(new HNT(idx, head.toString(), number.toString(), tail.toString()));     
+        }
+        
+
+        
+        // 정렬
+        Collections.sort(list);
+        
+        for(int idx=0; idx<files.length; idx++){
+            answer[idx] = list.get(idx).head+list.get(idx).number+list.get(idx).tail;
+        }
+        
+        return answer;
+    }
+}
